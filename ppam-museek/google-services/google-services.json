@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "241080364149",
+    "project_id": "ppam-museek",
+    "storage_bucket": "ppam-museek.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:241080364149:android:3216697841c2addab11c3c",
+        "android_client_info": {
+          "package_name": "com.triapollo.museek"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "241080364149-vp8vhg89v0edb4t74hgigfe94j4t96rp.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyB8Ms-qXPk5S9bPjfhPBNOOCc6xgFM2Mw0"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "241080364149-vp8vhg89v0edb4t74hgigfe94j4t96rp.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

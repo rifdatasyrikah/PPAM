@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>CLIENT_ID</key>
+	<string>241080364149-c9fojcmgih34ma0k76plhls443m1jkiq.apps.googleusercontent.com</string>
+	<key>REVERSED_CLIENT_ID</key>
+	<string>com.googleusercontent.apps.241080364149-c9fojcmgih34ma0k76plhls443m1jkiq</string>
+	<key>API_KEY</key>
+	<string>AIzaSyD446a2w83BVXnHkWADM8QtCzc-Xzg3Jv4</string>
+	<key>GCM_SENDER_ID</key>
+	<string>241080364149</string>
+	<key>PLIST_VERSION</key>
+	<string>1</string>
+	<key>BUNDLE_ID</key>
+	<string>com.triapollo.museek</string>
+	<key>PROJECT_ID</key>
+	<string>ppam-museek</string>
+	<key>STORAGE_BUCKET</key>
+	<string>ppam-museek.appspot.com</string>
+	<key>IS_ADS_ENABLED</key>
+	<false></false>
+	<key>IS_ANALYTICS_ENABLED</key>
+	<false></false>
+	<key>IS_APPINVITE_ENABLED</key>
+	<true></true>
+	<key>IS_GCM_ENABLED</key>
+	<true></true>
+	<key>IS_SIGNIN_ENABLED</key>
+	<true></true>
+	<key>GOOGLE_APP_ID</key>
+	<string>1:241080364149:ios:db686e26f77a13dcb11c3c</string>
+</dict>
+</plist>
