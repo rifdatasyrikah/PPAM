@@ -1,1 +1,7 @@
 // "package": "com.rifdatasyrikah.ppammuseek" --> expo
+
+
+npm uninstall @react-native-firebase/app @react-native-firebase/auth @react-native-firebase/firestore @react-navigation/bottom-tabs @react-navigation/native @react-navigation/native-stack @react-navigation/stack @react-native-firebase/storage 
+npm uninstall expo expo-build-properties expo-dev-client expo-status-bar react react-firebase-hooks react-native react-native-paper react-native-safe-area-context react-native-screens expo-image-picker 
+
+npm install @react-native-firebase/app @react-native-firebase/auth @react-native-firebase/firestore @react-navigation/bottom-tabs @react-navigation/native @react-navigation/native-stack @react-navigation/stack @react-native-firebase/storage expo expo-build-properties expo-dev-client expo-status-bar react react-firebase-hooks react-native react-native-paper react-native-safe-area-context react-native-screens expo-image-picker 

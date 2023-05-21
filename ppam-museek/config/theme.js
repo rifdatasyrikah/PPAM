@@ -5,8 +5,13 @@ import {
 
 const theme = {
     ...DefaultTheme,
-    roundness: 20
-}
+    roundness: 20,
+    // colors: {
+    //     primary: '#FBBC05',
+    //     secondary: '#F3F3F3',
+    //     tertiary: '#464444',
+    // },
+};
 
 
 export default theme;
