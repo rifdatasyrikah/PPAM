@@ -14,9 +14,6 @@ export default function Login() {
         setField(text);
     }
     const handleLogin = async () => {
-        // validasi dulu
-        // 1. apakah email nya bener bisa pakai validitor js
-        // 2. apakah passwor dan repeat passwordnya sama
         try {
 
             await auth().signInWithEmailAndPassword(email, password)
@@ -26,15 +23,14 @@ export default function Login() {
 
     }
     return <View style={styles.container}>
-        <Text variant="headlineLarge" style={styles.title}>PPAM Project</Text>
-        <Text variant="titleLarge" style={styles.subtitile}>Login</Text>
+        <Text variant="headlineLarge" style={styles.title}>Selamat Datang</Text>
+        <Text variant="titleSmall" style={styles.subtitile}>Masuk dan mulailah cari guru musikmu</Text>
         <View style={styles.formContainer}>
             <TextInput
                 mode="outlined"
                 placeholder="Email"
                 value={email}
                 onChangeText={handleChange(setEmail)}
-                left={<TextInput.Icon icon="email" />}
                 autoFocus
             />
             <TextInput
@@ -43,12 +39,9 @@ export default function Login() {
                 value={password}
                 onChangeText={handleChange(setPassword)}
                 secureTextEntry
-                left={<TextInput.Icon icon="key" />}
             />
             <View style={styles.btnContainer}>
-                <Button mode="contained" onPress={handleLogin}>Login</Button>
-                <Text style={styles.or}>or</Text>
-                <Button onPress={() => navigation.navigate("Register")}>Create a new account</Button>
+                <Button mode="contained" onPress={handleLogin}>Masuk</Button>
             </View>
         </View>
     </View>
@@ -73,9 +66,11 @@ const styles = StyleSheet.create({
         marginVertical: 4
     },
     title: {
-        color: theme.colors.primary
+        color: theme.colors.primary,
+        fontWeight: "bold",
     },
     subtitile: {
-        color: theme.colors.secondary
+        color: theme.colors.secondary,
+        marginTop: 10
     }
 })

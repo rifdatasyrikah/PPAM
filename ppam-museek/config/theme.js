@@ -6,11 +6,14 @@ import {
 const theme = {
     ...DefaultTheme,
     roundness: 20,
-    // colors: {
-    //     primary: '#FBBC05',
-    //     secondary: '#F3F3F3',
-    //     tertiary: '#464444',
-    // },
+    colors: {
+        // primary: '#464444',
+        // secondary: '#FBBC05',
+
+        primary: '#FBBC05',
+        secondary: '#464444',
+        tertiary: '#F3F3F3',
+    }
 };
 
 

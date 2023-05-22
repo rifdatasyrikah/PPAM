@@ -11,7 +11,7 @@ const Stack = createNativeStackNavigator();
 
 export default function Navigation() {
     const { user } = useAuth();
-
+    // console.log("user", user)
     return (
         <NavigationContainer>
             <Stack.Navigator

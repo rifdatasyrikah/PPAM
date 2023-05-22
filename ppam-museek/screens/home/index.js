@@ -21,6 +21,10 @@ export default function Home() {
 
     const [data, loading] = useCollectionData(query, { idField: "id" });
 
+    const handleLogout = ()=> {
+        auth().signOut();
+    }
+
     const handleDelete = item => e => {
         Alert.alert('Delete Confirmation', 'Are you sure want to delete this todo?', [
             {
@@ -46,6 +50,7 @@ export default function Home() {
         <View style={styles.buttonContainer}>
             <Button mode="contained" onPress={handleLogout}>Logout</Button>
         </View> */}
+        <Button mode="contained" onPress={handleLogout}>Logout</Button>
         <Appbar>
             <Appbar.Content title="Your To Do" />
         </Appbar>
