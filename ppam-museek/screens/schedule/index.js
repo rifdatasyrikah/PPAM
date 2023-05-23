@@ -11,22 +11,33 @@ import { useEffect, useState } from "react";
 import { useAuth } from "../../contexts/AuthProvider";
 import { useCollectionData } from 'react-firebase-hooks/firestore';
 
-export default function Home() {
+export default function Schedule() {
     const navigation = useNavigation();
     const route = useRoute();
     const { user } = useAuth();
     const query = firestore()
-        .collection("teachers")
-        .orderBy("instrument");
-        // .orderBy("createdAt", "desc");
+        .collection("schedule")
+        // .orderBy("instrument");
+        .where("userId", "==", user?.uid)
+        .orderBy("createdAt", "desc");
 
 
     const [data, loading] = useCollectionData(query, { idField: "id" });
 
+    data1 = [
+        {
+            date: "kapan",
+            location: "dimana",
+        },
+        {
+            date: "when",
+            location: "where"
+        }
+    ]
 
     return <SafeAreaView style={styles.container}>
         <Appbar>
-            <Appbar.Content title=" Buat Jadwal dengan Guru Privat Musik" />
+            <Appbar.Content title=" Jadwal Belajarmu" />
         </Appbar>
 
         {loading ?
@@ -35,25 +46,24 @@ export default function Home() {
             </View>
             :
             <FlatList
+
                 data={data}
                 renderItem={({ item }) => {
-                    const { names, instrument } = item;
+                    const { date, location } = item;
                     return <List.Item
                         // left={props => <List.Icon {...props} icon="checkbox-blank-circle" />}
+                        // file-eye-outline
                         style={styles.list}
-                        title={names}
-                        description={instrument}
+                        title={date}
+                        description={location}
                         right={props => <View {...props}>
                             <View style={styles.actionBtns}>
-                                <IconButton mode="outlined" onPress={() => navigation.navigate("SetSchedule", {item})} icon="calendar-clock" />
+                                <IconButton mode="outlined" onPress={() => navigation.navigate("Details", {item})} icon="arrow-right-bold" />                                
                             </View>
                         </View>}
                     />
                 }}
-            />
-        }
-        
-        {/* <View style={{padding:20}}></View> */}
+            />}
 
     </SafeAreaView>
 }
@@ -68,6 +78,11 @@ const styles = StyleSheet.create({
     title: {
         color: theme.colors.primary
     },
+    fab: {
+        position: "absolute",
+        right: 40,
+        bottom: 40
+    },
     actionBtns: {
         flexDirection: "row"
     },
@@ -79,9 +94,8 @@ const styles = StyleSheet.create({
     list: {
         padding: 5,
         backgroundColor:"white",
-        // marginTop:10,
+        marginTop:10,
         marginHorizontal:10,
-        marginBottom: 10,
         borderRadius: 10
     }
 })

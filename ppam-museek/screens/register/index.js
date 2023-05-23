@@ -1,37 +1,73 @@
 import { useNavigation } from "@react-navigation/native";
 import { useState } from "react";
 import { StyleSheet, View } from "react-native";
-import { Button, Text, TextInput } from "react-native-paper";
+import { Button, Text, TextInput, HelperText } from "react-native-paper";
 import theme from "../../config/theme";
 import auth from '@react-native-firebase/auth';
+import firestore from '@react-native-firebase/firestore';
+
+import { useAuth } from "../../contexts/AuthProvider";
 
 export default function Register() {
-
     const navigation = useNavigation()
 
     const [name, setName] = useState("");
     const [repeatPassword, setRepeatPassword] = useState("");
     const [address, setAddress] = useState("");
-    const [phone, setPhone] = useState("");
+    const [phone, setPhone] = useState();
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
+    const [errors, setErrors] = useState({});
 
     const handleChange = setField => text => {
         setField(text);
+        setErrors({})
+    }
+
+    const validate = () => {
+
+        const newErrors = {};
+
+        if (!email || !password || !name || !address || !repeatPassword || !phone) {
+            newErrors.empty = "Tidak boleh ada field yang kosong";
+        } else if (password.length < 6) {
+            newErrors.weak = "Kata sandi terlalu lemah, buat minimal 6 karakter";
+        } else if (password != repeatPassword ){
+            newErrors.unmatch = "Kata sandi tidak sesuai, cek ulang";
+        } 
+        return newErrors;
     }
 
     const handleRegister = async () => {
         try {
-
-            await auth().createUserWithEmailAndPassword(email, password);
-            const userInfo = {
+            const findErrors = validate();
+            if (Object.values(findErrors)?.some(value => value !== "")) {
+                setErrors(findErrors);
+            } else {
+                await auth().createUserWithEmailAndPassword(email, password);
+                const userInfo = {
                 displayName: name,
                 phoneNumber: phone,
-              };
-            await auth().currentUser.updateProfile(userInfo);
+                };
+                await auth().currentUser.updateProfile(userInfo);
+                // const { user } = useAuth();
+
+                // await firestore().collection("profile").add({
+                //     userId: user.uid,
+                //     name: name,
+                //     phone: phone,
+                //     email: email,
+                //     address: address,
+                //     createdAt: firestore.FieldValue.serverTimestamp()
+                // });
+            }
         } catch (e) {
             console.log("error", e)
+            const newErrors = {};
+            newErrors.used = "Email tersebut sudah terdaftar, silakan login";
+            setErrors(newErrors);
         }
+        
 
     }
     return <View style={styles.container}>
@@ -43,32 +79,36 @@ export default function Register() {
                 mode="outlined"
                 placeholder="Nama"
                 onChangeText={handleChange(setName)}
-                autoFocus
+                error={errors?.empty ? true : false}
             />
             <TextInput
                 value={address}
                 mode="outlined"
                 onChangeText={handleChange(setAddress)}
                 placeholder="Alamat"
+                error={errors?.empty ? true : false}
             />
             <TextInput
                 value={phone}
                 mode="outlined"
                 onChangeText={handleChange(setPhone)}
                 placeholder="Nomor Telepon"
+                error={errors?.empty ? true : false}
             />
             <TextInput
                 value={email}
                 mode="outlined"
                 placeholder="Email"
                 onChangeText={handleChange(setEmail)}
-                autoFocus
+                error={errors?.empty ? true : false}
+                // autoFocus
             />
             <TextInput
                 value={password}
                 mode="outlined"
                 placeholder="Kata Sandi"
                 onChangeText={handleChange(setPassword)}
+                error={errors?.empty ? true : false}
                 secureTextEntry
             />
             <TextInput
@@ -76,8 +116,16 @@ export default function Register() {
                 mode="outlined"
                 onChangeText={handleChange(setRepeatPassword)}
                 placeholder="Ulang Kata Sandi"
+                error={errors?.empty ? true : false}
                 secureTextEntry
             />
+            <HelperText
+                type="error"
+                visible={errors?.empty ? true : false || errors?.unmatch ? true : false || errors?.used ? true : false || errors?.weak ? true : false}
+                style={{color: "red"}}
+            >
+                {errors?.empty ? errors.empty : errors?.used ? errors.used : errors?.weak? errors.weak : errors.unmatch}
+            </HelperText>
             <View style={styles.btnContainer}>
                 <Button mode="contained" onPress={handleRegister}>Daftar</Button>
             </View>
@@ -97,7 +145,7 @@ const styles = StyleSheet.create({
         marginTop: 8,
     },
     btnContainer: {
-        marginTop: 20,
+        marginTop: 10,
     },
     title: {
         color: theme.colors.primary,
