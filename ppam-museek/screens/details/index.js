@@ -61,10 +61,17 @@ export default function Details() {
     return <View style={styles.container}>
         <Text variant="headlineLarge" style={styles.title}>Jadwal</Text>
         <View style={styles.teacher}>
-            <Text style={{fontSize: 20, fontWeight: "bold", paddingBottom:10}}>{route.params.item.names}</Text>
-            <Text style={styles.subtitle}>Guru {route.params.item.instrument}</Text>
-            <Text style={styles.subtitle}>{route.params.item.description}</Text>
-            <Text style={{color: "#8099FF", paddingTop:10}}>Biaya/jam: {route.params.item.tarif}</Text>
+            <Text style={{fontSize: 20, fontWeight: "bold", paddingBottom:20}}>Guru: {route.params.item.names}</Text>
+            
+            <Text style={styles.itemTitle}>Jenis Instrumen Musik</Text>
+            <Text style={styles.item}>{route.params.item.instrument}</Text>
+            <Text style={styles.itemTitle}>Tanggal</Text>
+            <Text style={styles.item}>{route.params.item.date}</Text>
+            <Text style={styles.itemTitle}>Waktu</Text>
+            <Text style={styles.item}>{route.params.item.time}</Text>
+            <Text style={styles.itemTitle}>Lokasi</Text>
+            <Text style={styles.item}>{route.params.item.location}</Text>
+            <Text style={{color: "#8099FF", paddingTop:10}}>Biaya/jam: {route.params.item.fee}</Text>
         </View>
         
         <View style={styles.btnContainer}>
@@ -122,5 +129,16 @@ const styles = StyleSheet.create({
         position: "absolute",
         top: -20,
         right: -20
+    },
+    itemTitle: {
+        fontSize: 18, 
+        fontWeight: "bold", 
+        color: "#8099FF"
+    },
+    item: {
+        fontSize: 15, 
+        fontWeight: "bold", 
+        color: "#545151",
+        paddingBottom: 10
     }
 })

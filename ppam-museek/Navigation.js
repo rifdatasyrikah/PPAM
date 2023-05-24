@@ -1,4 +1,4 @@
-import { NavigationContainer } from '@react-navigation/native';
+import { NavigationContainer, useRoute } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { useAuth } from './contexts/AuthProvider';
@@ -23,6 +23,7 @@ import Success from './screens/success';
 
 const Stack = createNativeStackNavigator();
 const Tab = createBottomTabNavigator();
+
 
 const getTabBarVisibility = route => {
     // console.log(route);
@@ -57,7 +58,7 @@ const ScheduleStack = () => {
 const TabNavigator = () => {
     return (
         <Tab.Navigator 
-            innitialRouteName= {Home}
+            // innitialRouteName= {Home}
             screenOptions={
                     {
                         tabBarHideOnKeyboard: true,
@@ -141,14 +142,17 @@ export default function Navigation() {
                     <>
                         <Stack.Screen name="Landing" component={Landing} />
                         <Stack.Screen name="Login" component={Login} />
-                        <Stack.Screen name="Register" component={Register} />
-                        <Stack.Screen name="Schedule" component={Schedule} />
-                        <Stack.Screen name="Profile" component={Profile} />
+                        <Stack.Screen name="Register" component={Register}/>
                     </>}
                 {user &&
                     <>
-                    
                         <Stack.Screen name="Tab" component={TabNavigator} />
+                        {/* <Stack.Screen name="Home" component={Home} />
+                        <Stack.Screen name="Schedule" component={Schedule} />
+                        <Stack.Screen name="Profile" component={Profile} />
+                        <Stack.Screen name="SetSchedule" component={SetSchedule} />
+                        <Stack.Screen name="Success" component={Success} />
+                        <Stack.Screen name="Details" component={Details} /> */}
                     </>
                 }
             </Stack.Navigator>

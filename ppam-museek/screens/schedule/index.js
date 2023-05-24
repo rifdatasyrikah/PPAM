@@ -17,23 +17,31 @@ export default function Schedule() {
     const { user } = useAuth();
     const query = firestore()
         .collection("schedule")
-        // .orderBy("instrument");
         .where("userId", "==", user?.uid)
         .orderBy("createdAt", "desc");
 
 
     const [data, loading] = useCollectionData(query, { idField: "id" });
 
-    data1 = [
-        {
-            date: "kapan",
-            location: "dimana",
-        },
-        {
-            date: "when",
-            location: "where"
-        }
-    ]
+    // data = [
+    //     {
+    //         date: "kapan",
+    //         location: "dimana",
+    //     },
+    //     {
+    //         date: "when",
+    //         location: "where"
+    //     }
+    // ]
+    
+    
+        // auth().signOut();
+    console.log("ini di page shcedule")
+    console.log(user.uid);
+    
+    console.log(data);
+    // console.log(data[0].name);
+
 
     return <SafeAreaView style={styles.container}>
         <Appbar>
@@ -94,8 +102,9 @@ const styles = StyleSheet.create({
     list: {
         padding: 5,
         backgroundColor:"white",
-        marginTop:10,
+        // marginTop:10,
         marginHorizontal:10,
+        marginBottom: 10,
         borderRadius: 10
     }
 })

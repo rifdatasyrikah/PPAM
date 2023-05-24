@@ -3,6 +3,7 @@ import { useState } from "react";
 import { StyleSheet, View } from "react-native";
 import { Button, Text, TextInput, HelperText } from "react-native-paper";
 import theme from "../../config/theme";
+
 import auth from '@react-native-firebase/auth';
 import firestore from '@react-native-firebase/firestore';
 
@@ -38,6 +39,32 @@ export default function Register() {
         return newErrors;
     }
 
+    const handleSubmit = async () => {
+
+        const findErrors = validate();
+
+        if (Object.values(findErrors)?.some(value => value !== "")) {
+            setErrors(findErrors);
+        } else {
+            
+            const { user } = useAuth();
+            
+            console.log(user.uid, user.displayName ,name, email)
+            try {
+                await firestore().collection("profile").add({
+                    userId: user.uid,
+                    name: name,
+                    phone: phone,
+                    email: email,
+                    address: address,
+                    createdAt: firestore.FieldValue.serverTimestamp()
+                });
+            } catch (e) {
+            console.log("e", e)
+            }
+        }
+    }
+
     const handleRegister = async () => {
         try {
             const findErrors = validate();
@@ -50,26 +77,21 @@ export default function Register() {
                 phoneNumber: phone,
                 };
                 await auth().currentUser.updateProfile(userInfo);
-                // const { user } = useAuth();
-
-                // await firestore().collection("profile").add({
-                //     userId: user.uid,
-                //     name: name,
-                //     phone: phone,
-                //     email: email,
-                //     address: address,
-                //     createdAt: firestore.FieldValue.serverTimestamp()
-                // });
             }
         } catch (e) {
             console.log("error", e)
             const newErrors = {};
             newErrors.used = "Email tersebut sudah terdaftar, silakan login";
             setErrors(newErrors);
-        }
-        
+        }       
 
     }
+
+    // const actionCombined = async () => {
+    //     handleRegister();
+    //     handleSubmit();
+    // } 
+
     return <View style={styles.container}>
         <Text variant="headlineLarge" style={styles.title}>Selamat Datang</Text>
         <Text variant="titleSmall" style={styles.subtitile}>Buat akun dan temukan guru terbaik disini</Text>

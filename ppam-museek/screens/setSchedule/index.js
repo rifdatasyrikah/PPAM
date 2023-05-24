@@ -18,9 +18,9 @@ export default function SetSchedule() {
     const [location, setLocation] = useState("")
     const [errors, setErrors] = useState({});
     const [loading, setLoading] = useState(false);
-    const [names, setNames] = useState("");
-    const [instrument, setInstrument] = useState("");
-    const [fee, setFee] = useState("");
+    const [names, setNames] = useState(route.params?.item?.names ?? "");
+    const [instrument, setInstrument] = useState(route.params?.item?.instrument ?? "");
+    const [fee, setFee] = useState(route.params?.item?.fee ?? "");
     // const [names, setnames] = useState(route.params?.item?.names ?? "");
     // const [image, setImage] = useState(route.params?.item?.imageUrl ?? null);
 
@@ -80,8 +80,8 @@ export default function SetSchedule() {
     return <View style={styles.container}>
         <Text variant="headlineLarge" style={styles.title}>Buat Jadwal</Text>
         <View style={styles.teacher}>
-            <Text style={{fontSize: 20, fontWeight: "bold", paddingBottom:10}}>{route.params.item.names}</Text>
-            <Text style={styles.subtitle}>Guru {route.params.item.instrument}</Text>
+            <Text style={{fontSize: 20, fontWeight: "bold"}}>{route.params.item.names}</Text>
+            <Text style={{color: "#8099FF", paddingBottom:10}}>Guru {route.params.item.instrument}</Text>
             <Text style={styles.subtitle}>{route.params.item.description}</Text>
             <Text style={{color: "#8099FF", paddingTop:10}}>Biaya/jam: {route.params.item.fee}</Text>
         </View>
