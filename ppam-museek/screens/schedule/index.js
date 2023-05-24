@@ -144,7 +144,6 @@ export default function Home() {
     const [data, loading] = useCollectionData(query, { idField: "id" });
 // 
     // console.log(user.uid, user.displayName)
-    console.log(data);
 
     // for( var i = 0; i < data.length; i++){ 
     
@@ -178,16 +177,33 @@ export default function Home() {
             </View>
             :
             <FlatList
-
                 data={data}
+
                 renderItem={({ item }) => {
-                    const { date, location, time } = item;
+                    const { date, location, time, instrument } = item;
+                    let iconInstrument = "";
+                    if (instrument == "Bass") {
+                        iconInstrument = "guitar-acoustic"
+                    } else if (instrument == "Biola") {
+                        iconInstrument = "violin"
+                    } else if (instrument == "Gitar") {
+                        iconInstrument = "guitar-electric"
+                    } else if (instrument == "Piano") {
+                        iconInstrument = "piano"
+                    } else if (instrument == "Vokal") {
+                        iconInstrument = "microphone-variant"
+                    }
+
                     return <List.Item
                         // left={props => <List.Icon {...props} icon="checkbox-blank-circle" />}
                         // file-eye-outline
                         style={styles.list}
                         title={date}
                         description={time}
+
+                        
+                        left={props => <List.Icon {...props} icon={iconInstrument} />}
+
                         right={props => <View {...props}>
                             <View style={styles.actionBtns}>
                                 <IconButton mode="outlined" onPress={() => navigation.navigate("Details", {item})} icon="arrow-right-bold" />                                

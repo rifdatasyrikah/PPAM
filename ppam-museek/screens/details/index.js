@@ -50,7 +50,7 @@ export default function Details() {
                 text: 'Yakin', onPress: async () => {
 
                     await firestore().collection("schedule").doc(item.id).delete();
-
+                    navigation.navigate("Schedule")
                 }
             },
         ]);
@@ -82,7 +82,7 @@ export default function Details() {
         </View>
         
         <View style={styles.btnContainer}>
-                <Button mode="contained" onPress={showDialog}>Batalkan Jadwal</Button>
+                <Button mode="contained" onPress={handleDelete(route.params.item)}>Hapus Jadwal</Button>
                 
                 {/* <Button mode="contained" onPress={handleDelete(route.item)}>Batalkan Jadwal</Button> */}
                 <View style={{padding:5}}></View>
@@ -137,7 +137,7 @@ const styles = StyleSheet.create({
         right: -20
     },
     itemTitle: {
-        fontSize: 18, 
+        fontSize: 15, 
         fontWeight: "bold", 
         color: "#8099FF"
     },

@@ -108,7 +108,7 @@ export default function SetSchedule() {
     return <View style={styles.container}>
          <IconButton 
             mode="outlined"
-            onPress={() => navigation.navigate("Home")}
+            onPress={() => navigation.navigate("Teacher", {category:route.params.category})}
             style={styles.fab}
             icon={"arrow-left"}
         />

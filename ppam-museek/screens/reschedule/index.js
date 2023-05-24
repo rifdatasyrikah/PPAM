@@ -108,7 +108,7 @@ export default function Reschedule() {
     return <View style={styles.container}>
          <IconButton 
             mode="outlined"
-            onPress={() => navigation.navigate("Schedule")}
+            onPress={() => navigation.navigate("Details", {item:route.params.item})}
             style={styles.fab}
             icon={"arrow-left"}
         />
