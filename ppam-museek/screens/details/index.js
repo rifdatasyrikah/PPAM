@@ -1,7 +1,7 @@
 import { useNavigation, useRoute } from "@react-navigation/native";
 import { useState } from "react";
-import { Image, StyleSheet, View,Text } from "react-native";
-import { Button, HelperText, IconButton, TextInput } from "react-native-paper";
+import { Image, StyleSheet, View,Text, Alert } from "react-native";
+import { Button, Dialog, IconButton, Portal } from "react-native-paper";
 import theme from "../../config/theme";
 import auth from '@react-native-firebase/auth';
 import firestore from '@react-native-firebase/firestore';
@@ -54,11 +54,18 @@ export default function Details() {
                 }
             },
         ]);
-
     }
 
+    let item = route.params.item;
 
     return <View style={styles.container}>
+        <IconButton 
+            mode="outlined"
+            onPress={() => navigation.navigate("Schedule")}
+            style={styles.fab}
+            icon={"arrow-left"}
+        />
+
         <Text variant="headlineLarge" style={styles.title}>Jadwal</Text>
         <View style={styles.teacher}>
             <Text style={{fontSize: 20, fontWeight: "bold", paddingBottom:20}}>Guru: {route.params.item.names}</Text>
@@ -71,17 +78,16 @@ export default function Details() {
             <Text style={styles.item}>{route.params.item.time}</Text>
             <Text style={styles.itemTitle}>Lokasi</Text>
             <Text style={styles.item}>{route.params.item.location}</Text>
-            <Text style={{color: "#8099FF", paddingTop:10}}>Biaya/jam: {route.params.item.fee}</Text>
+            <Text style={{color: "#8099FF", paddingTop:10, fontWeight:"bold"}}>Biaya/jam: {route.params.item.fee}</Text>
         </View>
         
         <View style={styles.btnContainer}>
-                <Button
-                    disabled={loading}
-                    mode="contained" onPress={handleDelete}>Batalkan Jadwal</Button>
+                <Button mode="contained" onPress={showDialog}>Batalkan Jadwal</Button>
+                
+                {/* <Button mode="contained" onPress={handleDelete(route.item)}>Batalkan Jadwal</Button> */}
                 <View style={{padding:5}}></View>
-                {/* <Button mode="outlined" onPress={() => navigation.navigate("Home")}>Kembali</Button> */}
+                <Button mode="outlined" onPress={() => navigation.navigate("Reschedule", {item})}>Atur Ulang Jadwal</Button>
         </View>
-
     </View>
 }
 
@@ -138,7 +144,12 @@ const styles = StyleSheet.create({
     item: {
         fontSize: 15, 
         fontWeight: "bold", 
-        color: "#545151",
+        // color: "#545151",
         paddingBottom: 10
+    },
+    fab: {
+        position: "absolute",
+        left: 20,
+        top: 50
     }
 })

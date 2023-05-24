@@ -9,13 +9,13 @@ import { useAuth } from "../../contexts/AuthProvider";
 import storage from '@react-native-firebase/storage';
 import * as ImagePicker from 'expo-image-picker';
 
-export default function SetSchedule() {
+export default function Reschedule() {
     const navigation = useNavigation();
     const { user } = useAuth();
     const route = useRoute();
-    const [date, setDate] = useState("");
-    const [time, setTime] = useState("");
-    const [location, setLocation] = useState("")
+    const [date, setDate] = useState(route.params?.item?.date ?? "");
+    const [time, setTime] = useState(route.params?.item?.time ?? "");
+    const [location, setLocation] = useState(route.params?.item?.location ?? "");
     const [errors, setErrors] = useState({});
     const [loading, setLoading] = useState(false);
     const [names, setNames] = useState(route.params?.item?.names ?? "");
@@ -57,7 +57,7 @@ export default function SetSchedule() {
                 setNames(route.params.item.names);
                 setInstrument(route.params.item.instrument);
                 setFee(route.params.item.fee);
-                await firestore().collection("schedule").add({
+                await firestore().collection("schedule").doc(route.params?.item?.id).set({
                     userId: user.uid,
                     date,
                     time,
@@ -67,7 +67,7 @@ export default function SetSchedule() {
                     fee,
                     createdAt: firestore.FieldValue.serverTimestamp(),
                     updatedAt: firestore.FieldValue.serverTimestamp(),
-                });
+                }, { merge: true })
                 // console.log("success")
 
                 // if (route.params?.mode === "create") {
@@ -97,7 +97,7 @@ export default function SetSchedule() {
                 // }
 
 
-                navigation.navigate("Success");
+                navigation.navigate("Schedule");
             } catch (e) {
                 console.log("e", e)
             }
@@ -108,17 +108,15 @@ export default function SetSchedule() {
     return <View style={styles.container}>
          <IconButton 
             mode="outlined"
-            onPress={() => navigation.navigate("Home")}
+            onPress={() => navigation.navigate("Schedule")}
             style={styles.fab}
             icon={"arrow-left"}
         />
 
-        <Text variant="headlineLarge" style={styles.title}>Buat Jadwal</Text>
+        <Text variant="headlineLarge" style={styles.title}>Atur Ulang Jadwal</Text>
         <View style={styles.teacher}>
             <Text style={{fontSize: 20, fontWeight: "bold"}}>{route.params.item.names}</Text>
-            <Text style={{color: "#8099FF", paddingBottom:10}}>Guru {route.params.item.instrument}</Text>
-            <Text style={styles.subtitle}>{route.params.item.description}</Text>
-            <Text style={{color: "#8099FF", paddingTop:10}}>Biaya/jam: {route.params.item.fee}</Text>
+            <Text style={{color: "#8099FF"}}>Guru {route.params.item.instrument}</Text>
         </View>
         {/* <Text variant="titleLarge" style={styles.subtitile}>Login</Text> */}
         <View style={styles.formContainer}>

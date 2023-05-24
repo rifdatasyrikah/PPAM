@@ -20,6 +20,7 @@ import Profile from './screens/profile';
 import SetSchedule from './screens/setSchedule';
 import Details from './screens/details';
 import Success from './screens/success';
+import Reschedule from './screens/reschedule';
 
 const Stack = createNativeStackNavigator();
 const Tab = createBottomTabNavigator();
@@ -51,6 +52,8 @@ const ScheduleStack = () => {
         <Stack.Navigator screenOptions={{headerShown: false}}>
             <Stack.Screen name="Schedule" component={Schedule}/>
             <Stack.Screen name="Details" component={Details}/>
+            <Stack.Screen name="Reschedule" component={Reschedule}/>
+            <Stack.Screen name="Success" component={Success}/>
         </Stack.Navigator>
     )
 }
@@ -88,6 +91,7 @@ const TabNavigator = () => {
                     ),
                 })}
                     />
+                    
             <Tab.Screen 
                 name="ScheduleStack" 
                 component={ScheduleStack}
