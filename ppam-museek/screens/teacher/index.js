@@ -1,5 +1,5 @@
 import { FlatList, StyleSheet, View, Alert } from "react-native";
-import { ActivityIndicator, Appbar, Button, FAB, IconButton, List, Text } from "react-native-paper";
+import { ActivityIndicator, Appbar, Button, FAB, IconButton, List, Text, Avatar } from "react-native-paper";
 import theme from "../../config/theme";
 
 import auth from '@react-native-firebase/auth';
@@ -7,9 +7,11 @@ import { useNavigation, useRoute } from "@react-navigation/native";
 import { SafeAreaView } from "react-native-safe-area-context";
 
 import firestore from '@react-native-firebase/firestore';
+import storage from '@react-native-firebase/storage';
 import { useEffect, useState } from "react";
 import { useAuth } from "../../contexts/AuthProvider";
 import { useCollectionData } from 'react-firebase-hooks/firestore';
+
 
 export default function Teacher() {
     const navigation = useNavigation();
@@ -24,6 +26,10 @@ export default function Teacher() {
 // 
 
     const [category, setCategory] = useState(route.params?.category ?? "");
+
+
+    const [image, setImage] = useState(null);
+
     // console.log(user.uid, user.displayName)
     // console.log(data);
 
@@ -38,6 +44,38 @@ export default function Teacher() {
     //         "James Adam"}
 
     // ]
+
+    // const getImages = async () => {
+        // for (const item of data) {
+        //     const storageRef = storage().ref(`/images/teacher/${item.imageUrl}`);
+        //     i = await storageRef.getDownloadURL();
+        //     // setImage(i);
+        //     console.log(String(i));
+        //     item['image'] = String(i);
+        //     // console.log(item.image)
+        // }
+    //     console.log("BATASNYAAAAAAAAAAAAAAAAAADISINIIIIIIIIIIIIIII")
+    //     for (let i = 1; i <= 10; i++) {
+    //         const storageRef = storage().ref(`/images/teacher/cowo${i}.jpg`);
+    //         ye = await storageRef.getDownloadURL();
+    //         console.log(String(ye));
+    //         // Access each element using array[i]
+    //       }
+        
+          
+    //     for (let i = 1; i <= 10; i++) {
+    //         const storageRef = storage().ref(`/images/teacher/cewe${i}.jpg`);
+    //         ye = await storageRef.getDownloadURL();
+            
+    //         console.log(String(ye));
+    //         // Access each element using array[i]
+    //       }
+    // }
+
+    // getImages();
+    // console.log("SETELAH NGAMBIL IMAGESSSSS!!!!!!!!!!")
+    // console.log(data);
+    // getImage();
 
     let instrument = route.params.category;
     if (instrument == "Bass") {
@@ -60,7 +98,7 @@ export default function Teacher() {
 
         <Appbar.Header>
             <Appbar.BackAction onPress={() => navigation.navigate("Home")} />
-            <Appbar.Content title="Buat Jadwal Dengan Guru" />
+            <Appbar.Content title = {`Buat Jadwal Dengan Guru ${instrument}`} />
             <Appbar.Action icon={iconInstrument} onPress={() => {}} />
         </Appbar.Header>
 
@@ -77,8 +115,28 @@ export default function Teacher() {
 
             <FlatList
                 data={data}
-                renderItem={({ item }) => {
-                    const { names, instrument, fee } = item;
+                renderItem = {({ item }) => {
+                    const { names, instrument, fee, imageUrl } = item;
+                    // console.log(item.names);
+                    // console.log(item.imageUrl)
+
+                    // let image = null;
+                    // const getImage = async () => {
+                    //     const storageRef = storage().ref(`/images/teacher/${imageUrl}`);
+                    //     // console.log(imageUrl)
+                    //     // const image = null;
+                    //     i = await storageRef.getDownloadURL();
+                    //     setImage(i)
+                    //     // console.log(image);
+                    //     // return image
+                    // }
+    
+                    // getImage();
+                    // const image = getImage();
+                    
+                    // console.log(image)
+                    // gs://ppam-museek.appspot.com/images/teacher/yeah.jpg
+
                     // let iconInstrument = "";
                     // if (instrument == "Bass") {
                     //     iconInstrument = "guitar-acoustic"
@@ -92,13 +150,16 @@ export default function Teacher() {
                     //     iconInstrument = "microphone-variant"
                     // }
 
-                    return <List.Item
+                    if (imageUrl) {
+                        
+                        // console.log("halo");
+                        return <List.Item
                         // left={props => <List.Icon {...props} icon="checkbox-blank-circle" />}
                         style={styles.list}
                         title={names}
                         description={fee}
-
-                        left={props => <List.Icon {...props} icon={iconInstrument} />}
+                        left={props => <Avatar.Image {...props} size={35} source={{uri: imageUrl}} />}
+                        
 
                         right={props => <View {...props}>
                             <View style={styles.actionBtns}>
@@ -106,6 +167,24 @@ export default function Teacher() {
                             </View>
                         </View>}
                     />
+                    } else {
+                        
+                        // console.log(image);
+                        return <List.Item
+                        // left={props => <List.Icon {...props} icon="checkbox-blank-circle" />}
+                        style={styles.list}
+                        title={names}
+                        description={fee}
+                        left={props => <List.Icon {...props} icon={iconInstrument} />}
+                        
+
+                        right={props => <View {...props}>
+                            <View style={styles.actionBtns}>
+                                <IconButton mode="outlined" onPress={() => navigation.navigate("SetSchedule", {item, category})} icon="calendar-clock" />
+                            </View>
+                        </View>}
+                    />
+                    }                    
                 }}
             />
             }

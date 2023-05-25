@@ -1,7 +1,7 @@
 import { useNavigation, useRoute } from "@react-navigation/native";
 import { useState } from "react";
 import { Image, StyleSheet, View,Text, Alert } from "react-native";
-import { Button, Dialog, IconButton, Portal } from "react-native-paper";
+import { Button, Dialog, IconButton, Portal, Avatar } from "react-native-paper";
 import theme from "../../config/theme";
 import auth from '@react-native-firebase/auth';
 import firestore from '@react-native-firebase/firestore';
@@ -18,11 +18,32 @@ export default function Details() {
     const [location, setLocation] = useState("")
     const [errors, setErrors] = useState({});
     const [loading, setLoading] = useState(false);
-    const [names, setNames] = useState("");
-    const [instrument, setInstrument] = useState("");
-    const [fee, setFee] = useState("");
     // const [names, setnames] = useState(route.params?.item?.names ?? "");
     // const [image, setImage] = useState(route.params?.item?.imageUrl ?? null);
+
+     
+    const [names, setNames] = useState(route.params?.item?.names ?? "");
+    const [instrument, setInstrument] = useState(route.params?.item?.instrument ?? "");
+    const [fee, setFee] = useState(route.params?.item?.fee ?? "");
+    const [description, setDescription] = useState(route.params?.item?.description ?? "");
+    const [imageUrl, setImageUrl] = useState(route.params?.item?.imageUrl ?? "");
+    
+    // const [names, setnames] = useState(route.params?.item?.names ?? "");
+    // const [image, setImage] = useState(null);
+
+    // const getImage = async () => {
+    //     const storageRef = storage().ref(`/images/teacher/${imageUrl}`);
+    //     // console.log(imageUrl)
+    //     // const image = null;
+    //     i = await storageRef.getDownloadURL();
+    //     setImage(i)
+    //     // console.log(image);
+    //     // return image
+    // }
+
+    // getImage();
+    // console.log(image)
+
 
     const handleChange = setField => text => {
         setField(text);
@@ -66,12 +87,21 @@ export default function Details() {
             icon={"arrow-left"}
         />
 
-        <Text variant="headlineLarge" style={styles.title}>Jadwal</Text>
-        <View style={styles.teacher}>
-            <Text style={{fontSize: 20, fontWeight: "bold", paddingBottom:20}}>Guru: {route.params.item.names}</Text>
-            
-            <Text style={styles.itemTitle}>Jenis Instrumen Musik</Text>
-            <Text style={styles.item}>{route.params.item.instrument}</Text>
+        <Text variant="headlineLarge" style={styles.title}>Jadwal Belajar {instrument}</Text>
+
+        
+        <View style={styles.teacherContainer}>
+            <View style={styles.teacher}>
+                <Text style={{fontSize: 20, fontWeight: "bold"}}>{route.params.item.names}</Text>
+                <Text style={{color: "#8099FF", paddingBottom:10}}>Guru {route.params.item.instrument}</Text>
+                <Text style={styles.subtitle}>{route.params.item.description}</Text>
+                <Text style={{color: "#8099FF", paddingTop:10}}>Biaya/jam: {route.params.item.fee}</Text>
+            </View>
+            {/* <Image source={{ uri: route.params.image }} style={styles.imgPreview} /> */}
+            <Avatar.Image size={100} source={{uri: route.params.item.imageUrl}}/>
+        </View>
+
+        <View style={styles.schedule}>
             <Text style={styles.itemTitle}>Tanggal</Text>
             <Text style={styles.item}>{route.params.item.date}</Text>
             <Text style={styles.itemTitle}>Waktu</Text>
@@ -97,10 +127,9 @@ const styles = StyleSheet.create({
         justifyContent: "center",
         alignItems: "center"
     },
-    teacher: {
+    schedule: {
         width: "90%",
         padding: 20,
-        marginTop: 20,
         borderRadius: 20,
         backgroundColor:"white",
     },
@@ -151,5 +180,16 @@ const styles = StyleSheet.create({
         position: "absolute",
         left: 20,
         top: 50
+    },
+    teacherContainer: {
+        flexDirection: "row",
+        width: "90%",
+        padding: 20,
+        margin: 20,
+        borderRadius: 20,
+        backgroundColor:"white",
+        paddingRight: 100
+    }, teacher: {
+        marginRight: 50
     }
 })

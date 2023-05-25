@@ -32,7 +32,7 @@ const getTabBarVisibility = route => {
     const routeName = getFocusedRouteNameFromRoute(route) ?? 'Feed';
     // console.log(routeName);
   
-    if( routeName == 'SetSchedule' || routeName == "Details" || routeName == "Success") {
+    if( routeName == 'SetSchedule' || routeName == "Details" || routeName == "Success" ||  routeName == "Reschedule") {
       return 'none';
     }
     return 'flex';

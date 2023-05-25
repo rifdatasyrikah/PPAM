@@ -129,7 +129,7 @@ export default function Home() {
     const route = useRoute();
     const { user } = useAuth();
 
-    console.log(user.uid);
+    // console.log(user.uid);
     const query = firestore()
         .collection("schedule")
         .where("userId", "==", user.uid)
