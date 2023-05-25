@@ -143,6 +143,7 @@ export default function Home() {
         // auth().signOut();
     const [data, loading] = useCollectionData(query, { idField: "id" });
 // 
+    // console.log(data);
     // console.log(user.uid, user.displayName)
 
     // for( var i = 0; i < data.length; i++){ 
@@ -165,58 +166,77 @@ export default function Home() {
     //         "James Adam"}
 
     // ]
-    
-    return <SafeAreaView style={styles.container}>
+    if (data.length != 0) {
+        return <SafeAreaView style={styles.container}>
+            <Appbar>
+                <Appbar.Content title="Jadwal Belajar Kamu" style={{alignItems: "center"}} />
+            </Appbar>
+
+            {loading ?
+                <View style={styles.loading}>
+                    <ActivityIndicator />
+                </View>
+                :
+                <FlatList
+                    data={data}
+
+                    renderItem={({ item }) => {
+                        const { date, location, time, instrument } = item;
+                        let iconInstrument = "";
+                        if (instrument == "Bass") {
+                            iconInstrument = "guitar-acoustic"
+                        } else if (instrument == "Biola") {
+                            iconInstrument = "violin"
+                        } else if (instrument == "Gitar") {
+                            iconInstrument = "guitar-electric"
+                        } else if (instrument == "Piano") {
+                            iconInstrument = "piano"
+                        } else if (instrument == "Vokal") {
+                            iconInstrument = "microphone-variant"
+                        }
+
+                        return <List.Item
+                            // left={props => <List.Icon {...props} icon="checkbox-blank-circle" />}
+                            // file-eye-outline
+                            style={styles.list}
+                            title={date}
+                            description={time}
+
+                            
+                            left={props => <List.Icon {...props} icon={iconInstrument} />}
+
+                            right={props => <View {...props}>
+                                <View style={styles.actionBtns}>
+                                    <IconButton mode="outlined" onPress={() => navigation.navigate("Details", {item})} icon="arrow-right-bold" />                                
+                                </View>
+                            </View>}
+                        />
+                    }}
+                />}
+
+
+            {/* <View style={{padding:20}}></View> */}
+
+        </SafeAreaView>
+    } else {
+        return <SafeAreaView style={styles.container}>
         <Appbar>
-            <Appbar.Content title=" Buat Jadwal dengan Guru Privat Musik" />
+            <Appbar.Content title="Jadwal Belajar Kamu" style={{alignItems: "center"}} />
         </Appbar>
 
         {loading ?
-            <View style={styles.loading}>
-                <ActivityIndicator />
-            </View>
-            :
-            <FlatList
-                data={data}
-
-                renderItem={({ item }) => {
-                    const { date, location, time, instrument } = item;
-                    let iconInstrument = "";
-                    if (instrument == "Bass") {
-                        iconInstrument = "guitar-acoustic"
-                    } else if (instrument == "Biola") {
-                        iconInstrument = "violin"
-                    } else if (instrument == "Gitar") {
-                        iconInstrument = "guitar-electric"
-                    } else if (instrument == "Piano") {
-                        iconInstrument = "piano"
-                    } else if (instrument == "Vokal") {
-                        iconInstrument = "microphone-variant"
-                    }
-
-                    return <List.Item
-                        // left={props => <List.Icon {...props} icon="checkbox-blank-circle" />}
-                        // file-eye-outline
-                        style={styles.list}
-                        title={date}
-                        description={time}
-
-                        
-                        left={props => <List.Icon {...props} icon={iconInstrument} />}
-
-                        right={props => <View {...props}>
-                            <View style={styles.actionBtns}>
-                                <IconButton mode="outlined" onPress={() => navigation.navigate("Details", {item})} icon="arrow-right-bold" />                                
-                            </View>
-                        </View>}
-                    />
-                }}
-            />}
-
-
-        {/* <View style={{padding:20}}></View> */}
-
-    </SafeAreaView>
+                <View style={styles.loading}>
+                    <ActivityIndicator />
+                </View>
+                :
+                
+                <View style={styles.titleContainer}>
+                    <Text variant="headlineSmall" style={styles.title}>Belum ada Jadwal Belajar Musik dengan Guru Privat Pilihanmu Nih</Text>
+                </View>
+        }
+        
+        </SafeAreaView>
+    }
 }
 
 const styles = StyleSheet.create({
@@ -227,8 +247,17 @@ const styles = StyleSheet.create({
         marginTop: 20,
         width:" 90%"
     },
+    titleContainer: {
+        flex:1,
+        width: "90%",
+        justifyContent: "center",
+        alignSelf: "center",
+        // backgroundColor:"white",
+    },
     title: {
-        color: theme.colors.primary
+        color: theme.colors.primary,
+        textAlign: "center",
+        fontWeight: "bold"
     },
     actionBtns: {
         flexDirection: "row"

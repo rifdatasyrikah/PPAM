@@ -20,6 +20,8 @@ export default function Register() {
     const [password, setPassword] = useState("");
     const [errors, setErrors] = useState({});
 
+    const [loading, setLoading] = useState(false);
+
     const handleChange = setField => text => {
         setField(text);
         setErrors({})
@@ -66,24 +68,33 @@ export default function Register() {
     }
 
     const handleRegister = async () => {
-        try {
-            const findErrors = validate();
-            if (Object.values(findErrors)?.some(value => value !== "")) {
-                setErrors(findErrors);
-            } else {
+        if (loading) {
+            // skip submitting if loading
+            return false;
+        }
+        const findErrors = validate();
+        if (Object.values(findErrors)?.some(value => value !== "")) {
+            setErrors(findErrors);
+        } else {
+            setLoading(true)
+            try {
                 await auth().createUserWithEmailAndPassword(email, password);
                 const userInfo = {
                 displayName: name,
                 phoneNumber: phone,
                 };
-                await auth().currentUser.updateProfile(userInfo);
+                await auth().currentUser.updateProfile(userInfo);    
+            } catch (e) {
+                console.log("error", e)
+                const newErrors = {};
+                newErrors.used = "Email tersebut sudah terdaftar, silakan login";
+                setErrors(newErrors);
             }
-        } catch (e) {
-            console.log("error", e)
-            const newErrors = {};
-            newErrors.used = "Email tersebut sudah terdaftar, silakan login";
-            setErrors(newErrors);
-        }       
+            setLoading(false)
+        }
+
+
+               
 
     }
 
@@ -102,6 +113,7 @@ export default function Register() {
                 placeholder="Nama"
                 onChangeText={handleChange(setName)}
                 error={errors?.empty ? true : false}
+                disabled={loading}
             />
             <TextInput
                 value={address}
@@ -109,6 +121,7 @@ export default function Register() {
                 onChangeText={handleChange(setAddress)}
                 placeholder="Alamat"
                 error={errors?.empty ? true : false}
+                disabled={loading}
             />
             <TextInput
                 value={phone}
@@ -116,6 +129,7 @@ export default function Register() {
                 onChangeText={handleChange(setPhone)}
                 placeholder="Nomor Telepon"
                 error={errors?.empty ? true : false}
+                disabled={loading}
             />
             <TextInput
                 value={email}
@@ -123,6 +137,7 @@ export default function Register() {
                 placeholder="Email"
                 onChangeText={handleChange(setEmail)}
                 error={errors?.empty ? true : false}
+                disabled={loading}
                 // autoFocus
             />
             <TextInput
@@ -132,6 +147,7 @@ export default function Register() {
                 onChangeText={handleChange(setPassword)}
                 error={errors?.empty ? true : false}
                 secureTextEntry
+                disabled={loading}
             />
             <TextInput
                 value={repeatPassword}
@@ -140,6 +156,7 @@ export default function Register() {
                 placeholder="Ulang Kata Sandi"
                 error={errors?.empty ? true : false}
                 secureTextEntry
+                disabled={loading}
             />
             <HelperText
                 type="error"
@@ -149,7 +166,7 @@ export default function Register() {
                 {errors?.empty ? errors.empty : errors?.used ? errors.used : errors?.weak? errors.weak : errors.unmatch}
             </HelperText>
             <View style={styles.btnContainer}>
-                <Button mode="contained" onPress={handleRegister}>Daftar</Button>
+                <Button disabled={loading} mode="contained" onPress={handleRegister}>Daftar</Button>
             </View>
         </View>
     </View>
@@ -175,6 +192,6 @@ const styles = StyleSheet.create({
     },
     subtitile: {
         color: theme.colors.secondary,
-        marginTop: 10
+        marginTop: 5
     }
 })

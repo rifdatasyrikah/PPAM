@@ -1,0 +1,51 @@
+{
+  "expo": {
+    "name": "museek",
+    "slug": "ppam-museek",
+    "version": "1.0.0",
+    "orientation": "portrait",
+    "icon": "./assets/icon.png",
+    "userInterfaceStyle": "light",
+    "splash": {
+      "image": "./assets/splash.png",
+      "resizeMode": "contain",
+      "backgroundColor": "#ffffff"
+    },
+    "assetBundlePatterns": [
+      "**/*"
+    ],
+    "ios": {
+      "bundleIdentifier": "com.triapollo.museek",
+      "googleServicesFile": "./google-services/GoogleService-Info.plist",
+      "supportsTablet": true
+    },
+    "android": {
+      "package": "com.triapollo.museek",
+      "googleServicesFile": "./google-services/google-services.json",
+      "adaptiveIcon": {
+        "foregroundImage": "./assets/adaptive-icon.png",
+        "backgroundColor": "#ffffff"
+      }
+    },
+    "web": {
+      "favicon": "./assets/favicon.png"
+    },
+    "extra": {
+      "eas": {
+        "projectId": "d3d1917d-31e0-4faa-9b98-9519ac284da4"
+      }
+    },
+    "owner": "rifdatasyrikah",
+    "plugins": [
+      "@react-native-firebase/app",
+      [
+        "expo-build-properties",
+        {
+          "ios": {
+            "useFrameworks": "static"
+          }
+        }
+      ]
+    ]
+  }
+}

@@ -11,6 +11,10 @@ export default function Login() {
     const [password, setPassword] = useState("");
     const [errors, setErrors] = useState({});
 
+
+    const [loading, setLoading] = useState(false);
+
+
     const handleChange = setField => text => {
         setField(text);
         setErrors({})
@@ -27,20 +31,29 @@ export default function Login() {
     }
 
     const handleLogin = async () => {
-        try {
-            const findErrors = validate();
+
+        if (loading) {
+            return false;
+        }
+
+        const findErrors = validate();
             if (Object.values(findErrors)?.some(value => value !== "")) {
                 setErrors(findErrors);
             } else {
-                await auth().signInWithEmailAndPassword(email, password)
+                setLoading(true)
+                try {
+                    await auth().signInWithEmailAndPassword(email, password)        
+                } catch (e) {
+                    console.log("error", e);
+                    // alert("Email atau kata sandi yang anda masukkan salah");
+                    const newErrors = {};
+                    newErrors.unmatch = "Email atau kata sandi yang anda masukkan salah.";
+                    setErrors(newErrors);
+                }
+                setLoading(false)
             }
-        } catch (e) {
-            console.log("error", e);
-            // alert("Email atau kata sandi yang anda masukkan salah");
-            const newErrors = {};
-            newErrors.unmatch = "Email atau kata sandi yang anda masukkan salah.";
-            setErrors(newErrors);
-        }
+
+        
 
     }
     return <View style={styles.container}>
@@ -53,6 +66,7 @@ export default function Login() {
                 value={email}
                 onChangeText={handleChange(setEmail)}
                 error={errors?.empty ? true : false}
+                disabled={loading}
                 // autoFocus
             /> 
             <TextInput
@@ -62,6 +76,7 @@ export default function Login() {
                 onChangeText={handleChange(setPassword)}
                 error={errors?.empty ? true : false}
                 secureTextEntry
+                disabled={loading}
             />
             <HelperText
                 type="error"
@@ -73,7 +88,7 @@ export default function Login() {
                 }
             </HelperText>
             <View style={styles.btnContainer}>    
-                <Button mode="contained" onPress={handleLogin}>Masuk</Button>
+                <Button disabled={loading} mode="contained" onPress={handleLogin}>Masuk</Button>
             </View>
         </View>
     </View>
@@ -103,6 +118,6 @@ const styles = StyleSheet.create({
     },
     subtitile: {
         color: theme.colors.secondary,
-        marginTop: 10
+        marginTop: 5
     }
 })
